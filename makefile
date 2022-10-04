@@ -5,12 +5,16 @@ EX_SRC = ./examples/
 RM=-rm -f
 GARBAGE={eps,tex,log,aux}
 
-.PHONY: all executable clean
+.PHONY: all executable plot clean
 
-all: executable
+all: executable plot
 
 executable: $(SOURCE)
 	@gcc $(OPTIONS) -o $(EXEC) $(SOURCE) -lm
+
+plot:
+	@$(EXEC)
+	@gnuplot -p $(EX_SRC)plot.gp
 
 clean:
 	@$(RM) $(EX_SRC)*.$(GARBAGE)
