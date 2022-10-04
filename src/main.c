@@ -73,7 +73,6 @@ int main(int argc, const char *argv[]) {
         dfermiDirac_dw[n]= -beta*expBw/((expBw+1.)*(expBw+1.));
     }
 
-
     ////////////////// precalculate trigo and k array //////////////////
 
     double sink[nK]; double sin2k[nK];
@@ -92,7 +91,6 @@ int main(int argc, const char *argv[]) {
     int m=0; for(m=0; m<nMu; m++)
     {
         double mu = muMin + m*(muMax-muMin)/(nMu-1);
-
 
         double sigma_xx = 0., sigma_xy = 0.;
         double alpha_xx = 0., alpha_xy = 0.;
@@ -159,6 +157,7 @@ int main(int argc, const char *argv[]) {
         fprintf(fileOut,"% 4.8e % 4.8e", f*beta_xx, f*beta_xy);
         fprintf(fileOut,"\n");
     }
+
     fclose(fileOut);
     printf("\n\nafmCond over.\n\n");
     return 0;
