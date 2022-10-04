@@ -159,6 +159,8 @@ int main(int argc, const char *argv[]) {
     }
 
     fclose(fileOut);
-    printf("\n\nafmCond over.\n\n");
+    char * msg = "afmCond over!";
+    printInfo(msg);
+
     return 0;
 }

@@ -68,3 +68,7 @@ void writeHeader(FILE * fileOut, char * header[]) {
     fprintf(fileOut, "\n");
     return;
 }
+
+void printInfo(char * info) {
+    printf("\n\n\033[0;32m %s\n\n", info);
+}
