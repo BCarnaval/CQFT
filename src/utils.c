@@ -6,6 +6,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define COLOR_RED   "\x1b[31m"
+#define COLOR_GREEN "\x1b[32m"
+#define COLOR_RESET "\x1b[0m"
+#define COLOR_CYAN  "\x1b[36m"
 
 void readDouble(FILE * file, char * name,  double * value) {
 
@@ -69,6 +73,15 @@ void writeHeader(FILE * fileOut, char * header[]) {
     return;
 }
 
-void printInfo(char * info) {
-    printf("\n\n\033[0;32m %s\n\n", info);
+void LOG(char * info, int color) {
+    if (color == 0)
+    {
+        printf(COLOR_RED   "\n%s\n" COLOR_RESET, info);
+    } else if (color == 1)
+    {
+        printf(COLOR_GREEN "\n%s\n" COLOR_RESET, info);
+    } else if (color == 2)
+    {
+        printf(COLOR_CYAN  "\n%s\n" COLOR_RESET, info);
+    }
 }

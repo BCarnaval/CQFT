@@ -2,8 +2,6 @@
 
 
 int main(int argc, const char *argv[]) {
-    printf("afmCond starting\n\n");
-
     /////////////////// Default hamiltonian parameters //////////////////
 
     double ETA=0.1;
@@ -21,30 +19,43 @@ int main(int argc, const char *argv[]) {
     int nOmega = 11;
     double amplitudeCutoff = 0.005;
 
+    FILE * modelFile;
+    FILE * fileOut;
+
+    char * startMsg = "afmCond starting.";
+    char * readMsg = "Reading parameters from model.dat";
+    char * fileNotFound = "File model.dat not found.";
+    char * dataHead = "      mu      density      sigma_xx      sigma_xy";
+    char * endMsg = "afmCond over!";
+
     ////////////////// Read parameters from file //////////////////
 
-    FILE * file = fopen("./examples/model.dat", "rt");
-    if (file == NULL) {
-        printf("File %s not found", "model.dat");
+    LOG(startMsg, 1);
+
+    modelFile = fopen("./examples/model.dat", "rt");
+
+    if (modelFile == NULL) {
+        LOG(fileNotFound, 0);
         exit(1);
     }
-    printf("Reading parameters from model.dat\n\n");
 
-    readDouble(file, "tpp",  &tpp);
-    readDouble(file, "tp",   &tp);
-    readDouble(file, "t",    &t);
-    readDouble(file, "ETA",  &ETA);
-    readDouble(file, "beta", &beta);
-    readDouble(file, "muMin",&muMin);
-    readDouble(file, "muMax",&muMax);
+    LOG(readMsg, 1);
 
-    readDouble(file, "amplitudeCutoff", &amplitudeCutoff);
+    readDouble(modelFile, "tpp",  &tpp);
+    readDouble(modelFile, "tp",   &tp);
+    readDouble(modelFile, "t",    &t);
+    readDouble(modelFile, "ETA",  &ETA);
+    readDouble(modelFile, "beta", &beta);
+    readDouble(modelFile, "muMin",&muMin);
+    readDouble(modelFile, "muMax",&muMax);
 
-    readInt(file, "nK",     &nK);
-    readInt(file, "nMu",    &nMu);
-    readInt(file, "nOmega", &nOmega);
+    readDouble(modelFile, "amplitudeCutoff", &amplitudeCutoff);
 
-    fclose(file);
+    readInt(modelFile, "nK",     &nK);
+    readInt(modelFile, "nMu",    &nMu);
+    readInt(modelFile, "nOmega", &nOmega);
+
+    fclose(modelFile);
 
     ////////////////// Out data file initialization //////////////////
 
@@ -55,7 +66,7 @@ int main(int argc, const char *argv[]) {
         "beta_xx", "beta_xy"
     };
 
-    FILE * fileOut = fopen("./examples/conductivities.dat", "w");
+    fileOut = fopen("./examples/conductivities.dat", "w");
     writeHeader(fileOut, headers);
 
     //////// precalculate omega vector Fermi Dirac derivative vector ////////
@@ -87,6 +98,8 @@ int main(int argc, const char *argv[]) {
     }
 
     ////////////////// main loop over mu, kx and ky //////////////////
+
+    LOG(dataHead, 2);
 
     int m=0; for(m=0; m<nMu; m++)
     {
@@ -152,16 +165,13 @@ int main(int argc, const char *argv[]) {
 
         printf("\n% 4.8f % 4.8f % 4.8e % 4.8e", mu, f0*density,  f*sigma_xx, f*sigma_xy);
 
-        fprintf(fileOut,"% 4.8f % 4.8f  ", mu, f0*density);
-        fprintf(fileOut,"% 4.8e % 4.8e  ", f*sigma_xx, f*sigma_xy);
-        fprintf(fileOut,"% 4.8e % 4.8e  ", f*alpha_xx, f*alpha_xy);
-        fprintf(fileOut,"% 4.8e % 4.8e", f*beta_xx, f*beta_xy);
-        fprintf(fileOut,"\n");
+        fprintf(fileOut, "% 4.8f % 4.8f  ", mu, f0*density);
+        fprintf(fileOut, "% 4.8e % 4.8e  ", f*sigma_xx, f*sigma_xy);
+        fprintf(fileOut, "% 4.8e % 4.8e  ", f*alpha_xx, f*alpha_xy);
+        fprintf(fileOut, "% 4.8e % 4.8e", f*beta_xx, f*beta_xy);
+        fprintf(fileOut, "\n");
     }
 
     fclose(fileOut);
-    char * msg = "afmCond over!";
-    printInfo(msg);
-
-    return 0;
+    LOG(endMsg, 1);
 }

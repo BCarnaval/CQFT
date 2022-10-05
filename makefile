@@ -1,9 +1,9 @@
-OPTIONS = -O2 -Wall -ffast-math
-EXEC = ./build/compute
-SOURCE = $(shell find . -name "*.c" -type f)
-EX_SRC = ./examples/
 RM=-rm -f
+EX_SRC=./examples/
+EXEC=./build/compute
 GARBAGE={eps,tex,log,aux}
+OPTIONS=-O2 -Wall -ffast-math
+SOURCE=$(shell find . -name "*.c" -type f)
 
 .PHONY: all executable plot clean
 
@@ -18,4 +18,4 @@ plot:
 
 clean:
 	@$(RM) $(EX_SRC)*.$(GARBAGE)
-	@$(RM) $(EX_SRC)*-inc-*
+	@$(RM) $(EX_SRC)*-inc-

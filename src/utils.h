@@ -13,7 +13,7 @@
 void readDouble(FILE * file, char * name,  double * value);
 void readInt(FILE * file, char * name,  int * value);
 void writeHeader(FILE * fileOut, char * header[]);
-void printInfo(char * info);
+void LOG(char * info, int isError);
 
 // Maths functions
 
