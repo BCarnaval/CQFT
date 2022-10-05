@@ -7,7 +7,7 @@ GARBAGE={eps,tex,log,aux}
 
 .PHONY: all executable plot clean
 
-all: executable plot
+all: executable
 
 executable: $(SOURCE)
 	@gcc $(OPTIONS) -o $(EXEC) $(SOURCE) -lm
