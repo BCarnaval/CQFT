@@ -5,6 +5,8 @@ int main(int argc, const char *argv[]) {
     /////////////////// Default hamiltonian parameters //////////////////
 
     double ETA=0.1;
+    double MU=1.5;
+    double OMEGA=0.0;
     double t=1.0;
     double tp=-0.3;
     double tpp=0.2;
@@ -12,7 +14,7 @@ int main(int argc, const char *argv[]) {
 
     int nK = 401;
 
-    int nMu = 20;
+    int nMu = 2;
     double muMin=-4.0;
     double muMax=4.0;
 
@@ -20,6 +22,7 @@ int main(int argc, const char *argv[]) {
     double amplitudeCutoff = 0.005;
 
     FILE * modelFile;
+    FILE * surface;
     FILE * fileOut;
 
     char * startMsg = "afmCond starting.";
@@ -45,6 +48,8 @@ int main(int argc, const char *argv[]) {
     readDouble(modelFile, "tp",   &tp);
     readDouble(modelFile, "t",    &t);
     readDouble(modelFile, "ETA",  &ETA);
+    readDouble(modelFile, "MU",  &MU);
+    readDouble(modelFile, "OMEGA",  &OMEGA);
     readDouble(modelFile, "beta", &beta);
     readDouble(modelFile, "muMin",&muMin);
     readDouble(modelFile, "muMax",&muMax);
@@ -100,6 +105,7 @@ int main(int argc, const char *argv[]) {
     ////////////////// main loop over mu, kx and ky //////////////////
 
     LOG(dataHead, 2);
+    surface = fopen("examples/spectralWeight.dat", "w");
 
     int m=0; for(m=0; m<nMu; m++)
     {
@@ -112,6 +118,11 @@ int main(int argc, const char *argv[]) {
 
         int i; for(i=0; i<nK; i++) // kx = k[i]
         {
+            if (mu==MU)
+            {
+                fprintf(surface, "\n");
+            }
+
             int j=0; for(j=0; j<nK; j++) // ky = k[j]
             {
                 ////////// dispersion relation (and its derivatives) /////////
@@ -119,7 +130,7 @@ int main(int argc, const char *argv[]) {
                 double epsilon_k           = -2.*t*(cosk[i] + cosk[j]) - 4.*tp*cosk[i]*cosk[j] - 2.*tpp*(cos2k[i] + cos2k[j]) - mu;
                 double depsilon_k_dkx      =  2.*t*sink[i]             + 4.*tp*sink[i]*cosk[j] + 4.*tpp*sin2k[i];
                 double depsilon_k_dky      =  2.*t*sink[j]             + 4.*tp*cosk[i]*sink[j] + 4.*tpp*sin2k[j];
-                double ddepsilon_k_dkx_dkx =  2.*t*cosk[i]             + 4.*tp*cosk[i]*cosk[j] + 8.*tpp*cos2k[i];
+                // double ddepsilon_k_dkx_dkx =  2.*t*cosk[i]             + 4.*tp*cosk[i]*cosk[j] + 8.*tpp*cos2k[i];
                 double ddepsilon_k_dky_dky =  2.*t*cosk[j]             + 4.*tp*cosk[i]*cosk[j] + 8.*tpp*cos2k[j];
                 double ddepsilon_k_dkx_dky =                           - 4.*tp*sink[i]*sink[j];
 
@@ -128,7 +139,7 @@ int main(int argc, const char *argv[]) {
                 double E1_k           = epsilon_k;
                 double dE1_k_dkx      = depsilon_k_dkx;
                 double dE1_k_dky      = depsilon_k_dky;
-                double ddE1_k_dkx_dkx = ddepsilon_k_dkx_dkx;
+                // double ddE1_k_dkx_dkx = ddepsilon_k_dkx_dkx;
                 double ddE1_k_dky_dky = ddepsilon_k_dky_dky;
                 double ddE1_k_dkx_dky = ddepsilon_k_dkx_dky;
 
@@ -138,24 +149,28 @@ int main(int argc, const char *argv[]) {
 
                 for(n=0; n<nOmega; n++)
                 {
-                  double complex z = omega[n] + ETA * I;
+                    double complex z = omega[n] + ETA * I;
 
-                  double A1_k = -(1./M_PI)*cimag(1.0/ (z-E1_k) );
+                    double A1_k = -(1./M_PI)*cimag(1.0/ (z-E1_k) );
 
-                  double frequencyKernel_xx = -dfermiDirac_dw[n]*kernel_xx*A1_k*A1_k;
-                  double frequencyKernel_xy = -dfermiDirac_dw[n]*kernel_xy*A1_k*A1_k*A1_k;
+                    double frequencyKernel_xx = -dfermiDirac_dw[n]*kernel_xx*A1_k*A1_k;
+                    double frequencyKernel_xy = -dfermiDirac_dw[n]*kernel_xy*A1_k*A1_k*A1_k;
 
-                  sigma_xx += frequencyKernel_xx;
-                  sigma_xy += frequencyKernel_xy;
+                    sigma_xx += frequencyKernel_xx;
+                    sigma_xy += frequencyKernel_xy;
 
-                  alpha_xx += beta*omega[n] * frequencyKernel_xx;
-                  alpha_xy += beta*omega[n] * frequencyKernel_xy;
+                    alpha_xx += beta*omega[n] * frequencyKernel_xx;
+                    alpha_xy += beta*omega[n] * frequencyKernel_xy;
 
-                  double omega2 = beta*beta* omega[n] * omega[n];
-                  beta_xx += omega2 * frequencyKernel_xx;
-                  beta_xy += omega2 * frequencyKernel_xy;
+                    double omega2 = beta*beta* omega[n] * omega[n];
+                    beta_xx += omega2 * frequencyKernel_xx;
+                    beta_xy += omega2 * frequencyKernel_xy;
+
+                    if (mu==MU && n==OMEGA)
+                    {
+                        fprintf(surface, "%i %i %f\n", i, j, A1_k);
+                    }
                 }
-
                 density += 1.0/(1.0+exp(beta*E1_k));
           }
        }
@@ -172,6 +187,7 @@ int main(int argc, const char *argv[]) {
         fprintf(fileOut, "\n");
     }
 
+    fclose(surface);
     fclose(fileOut);
     LOG(endMsg, 1);
 }

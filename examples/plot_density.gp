@@ -1,6 +1,6 @@
 # Global settings
 set terminal epslatex standalone
-set output 'examples/test.tex'
+set output 'examples/density.tex'
 set colorsequence podo
 
 # Actual plotting
@@ -13,6 +13,6 @@ plot 'examples/conductivities.dat' u 1:2 t 'Density $n(\mu)$' w lp lc 3 ps 0.5
 unset output
 
 # System commands
-system("pdflatex -output-directory='./examples/' './examples/test.tex'")
+system("pdflatex -output-directory='./examples/' './examples/density.tex'")
 system("make clean")
-system("open examples/test.pdf")
+system("open examples/density.pdf")

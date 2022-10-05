@@ -77,10 +77,12 @@ void LOG(char * info, int color) {
     if (color == 0)
     {
         printf(COLOR_RED   "\n%s\n" COLOR_RESET, info);
-    } else if (color == 1)
+    }
+    else if (color == 1)
     {
         printf(COLOR_GREEN "\n%s\n" COLOR_RESET, info);
-    } else if (color == 2)
+    }
+    else if (color == 2)
     {
         printf(COLOR_CYAN  "\n%s\n" COLOR_RESET, info);
     }

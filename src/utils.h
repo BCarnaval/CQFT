@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Input files management
+// Files management
 void readDouble(FILE * file, char * name,  double * value);
 void readInt(FILE * file, char * name,  int * value);
 void writeHeader(FILE * fileOut, char * header[]);

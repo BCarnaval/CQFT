@@ -9,13 +9,15 @@ SOURCE=$(shell find . -name "*.c" -type f)
 
 all: executable
 
+plot: executable
+	@$(EXEC)
+	@gnuplot -p $(EX_SRC)plot_density.gp
+
 executable: $(SOURCE)
 	@gcc $(OPTIONS) -o $(EXEC) $(SOURCE) -lm
 
-plot:
-	@$(EXEC)
-	@gnuplot -p $(EX_SRC)plot.gp
+
 
 clean:
 	@$(RM) $(EX_SRC)*.$(GARBAGE)
-	@$(RM) $(EX_SRC)*-inc-
+	@$(RM) $(EX_SRC)*-inc-*
