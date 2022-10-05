@@ -21,15 +21,15 @@ int main(int argc, const char *argv[]) {
     int nOmega = 11;
     double amplitudeCutoff = 0.005;
 
-    FILE * modelFile;
-    FILE * surface;
-    FILE * fileOut;
+    FILE *modelFile;
+    FILE *surface;
+    FILE *fileOut;
 
-    char * startMsg = "afmCond starting.";
-    char * readMsg = "Reading parameters from model.dat";
-    char * fileNotFound = "File model.dat not found.";
-    char * dataHead = "      mu      density      sigma_xx      sigma_xy";
-    char * endMsg = "afmCond over!";
+    char *startMsg = "afmCond starting.";
+    char *readMsg = "Reading parameters from model.dat";
+    char *fileNotFound = "File model.dat not found.";
+    char *dataHead = "      mu      density      sigma_xx      sigma_xy";
+    char *endMsg = "afmCond over!";
 
     ////////////////// Read parameters from file //////////////////
 
@@ -64,7 +64,7 @@ int main(int argc, const char *argv[]) {
 
     ////////////////// Out data file initialization //////////////////
 
-    char * headers[] = {
+    char *headers[] = {
         "#mu", "density",
         "sigma_xx", "sigma_xy",
         "alpha_xx", "alpha_xy",

@@ -11,7 +11,7 @@
 #define COLOR_RESET "\x1b[0m"
 #define COLOR_CYAN  "\x1b[36m"
 
-void readDouble(FILE * file, char * name,  double * value) {
+void readDouble(FILE *file, char *name,  double *value) {
 
     rewind(file);
 
@@ -33,7 +33,7 @@ void readDouble(FILE * file, char * name,  double * value) {
     exit(1);
 }
 
-void readInt(FILE * file, char * name,  int * value) {
+void readInt(FILE *file, char *name,  int *value) {
 
     rewind(file);
 
@@ -55,7 +55,7 @@ void readInt(FILE * file, char * name,  int * value) {
     exit(1);
 }
 
-void writeHeader(FILE * fileOut, char * header[]) {
+void writeHeader(FILE *fileOut, char *header[]) {
 
     for (int i = 0; i < 8; i++) {
         if (i == 7) {
@@ -68,7 +68,7 @@ void writeHeader(FILE * fileOut, char * header[]) {
     return;
 }
 
-void LOG(char * info, int color) {
+void LOG(char *info, int color) {
     if (color == 0) {
         printf(COLOR_RED   "\n%s\n" COLOR_RESET, info);
     } else if (color == 1) {
