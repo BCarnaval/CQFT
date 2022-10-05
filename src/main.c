@@ -76,17 +76,16 @@ int main(int argc, const char *argv[]) {
 
     //////// precalculate omega vector Fermi Dirac derivative vector ////////
 
-    double energyCutoff = 2.*2.*acosh(0.25*sqrt(beta/amplitudeCutoff)) /beta;
+    double energyCutoff = 2.*2.*acosh(0.25*sqrt(beta/amplitudeCutoff))/beta;
     // we put an additionnal factor of 2. for the derivative cutoff
 
     double omega[nOmega];
     double dfermiDirac_dw[nOmega];
 
-    int n=0; for(n=0; n<nOmega; n++)
-    {
-        omega[n]= -energyCutoff + 2.*energyCutoff*n/(nOmega-1);
+    for (int n = 0; n < nOmega; n++) {
+        omega[n] = -energyCutoff + 2.*energyCutoff*n/(nOmega - 1);
         double expBw = exp(beta*omega[n]);
-        dfermiDirac_dw[n]= -beta*expBw/((expBw+1.)*(expBw+1.));
+        dfermiDirac_dw[n] = -beta*expBw/((expBw + 1.)*(expBw + 1.));
     }
 
     ////////////////// precalculate trigo and k array //////////////////
@@ -94,8 +93,7 @@ int main(int argc, const char *argv[]) {
     double sink[nK]; double sin2k[nK];
     double cosk[nK]; double cos2k[nK];
 
-    int i=0; for(i=0; i<nK; i++)
-    {
+    for (int i = 0; i < nK; i++) {
         double k = M_PI*(-1.0 + i*2.0/nK);
 
         sink[i] = sin(k); sin2k[i] = sin(2.*k);
@@ -107,24 +105,20 @@ int main(int argc, const char *argv[]) {
     LOG(dataHead, 2);
     surface = fopen("examples/spectralWeight.dat", "w");
 
-    int m=0; for(m=0; m<nMu; m++)
-    {
-        double mu = muMin + m*(muMax-muMin)/(nMu-1);
+    for(int m = 0; m < nMu; m++) {
+        double mu = muMin + m*(muMax - muMin)/(nMu - 1);
 
         double sigma_xx = 0., sigma_xy = 0.;
         double alpha_xx = 0., alpha_xy = 0.;
         double beta_xx =  0., beta_xy = 0.;
         double density =  0.;
 
-        int i; for(i=0; i<nK; i++) // kx = k[i]
-        {
-            if (mu==MU)
-            {
+        for(int i = 0; i < nK; i++) {
+            if (mu == MU) {
                 fprintf(surface, "\n");
             }
 
-            int j=0; for(j=0; j<nK; j++) // ky = k[j]
-            {
+            for(int j = 0; j < nK; j++) {
                 ////////// dispersion relation (and its derivatives) /////////
 
                 double epsilon_k           = -2.*t*(cosk[i] + cosk[j]) - 4.*tp*cosk[i]*cosk[j] - 2.*tpp*(cos2k[i] + cos2k[j]) - mu;
@@ -147,8 +141,7 @@ int main(int argc, const char *argv[]) {
                 double kernel_xy = -(2./3.)*(dE1_k_dkx*(dE1_k_dkx*ddE1_k_dky_dky - dE1_k_dky*ddE1_k_dkx_dky));
 
 
-                for(n=0; n<nOmega; n++)
-                {
+                for (int n = 0; n < nOmega; n++) {
                     double complex z = omega[n] + ETA * I;
 
                     double A1_k = -(1./M_PI)*cimag(1.0/ (z-E1_k) );
@@ -166,12 +159,11 @@ int main(int argc, const char *argv[]) {
                     beta_xx += omega2 * frequencyKernel_xx;
                     beta_xy += omega2 * frequencyKernel_xy;
 
-                    if (mu==MU && n==OMEGA)
-                    {
+                    if (mu == MU && n == OMEGA) {
                         fprintf(surface, "%i %i %f\n", i, j, A1_k);
                     }
                 }
-                density += 1.0/(1.0+exp(beta*E1_k));
+                density += 1.0/(1.0 + exp(beta*E1_k));
           }
        }
 
