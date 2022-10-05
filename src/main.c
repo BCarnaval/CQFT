@@ -110,7 +110,8 @@ int main(int argc, const char *argv[]) {
                 double ddepsilon_k_dky_dky =  2.*t*cosk[j]             + 4.*tp*cosk[i]*cosk[j] + 8.*tpp*cos2k[j];
                 double ddepsilon_k_dkx_dky =                           - 4.*tp*sink[i]*sink[j];
 
-                //finally calculate the eigen values and their derivatives (vertices):
+                //////// eigen values and their derivatives (vertices) ////////
+
                 double E1_k           = epsilon_k;
                 double dE1_k_dkx      = depsilon_k_dkx;
                 double dE1_k_dky      = depsilon_k_dky;
