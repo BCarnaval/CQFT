@@ -63,9 +63,9 @@ int main(int argc, const char *argv[]) {
 
     fclose(modelFile);
 
-    ////////////////// Out data file initialization //////////////////
+    ////////////////// Out data files initialization //////////////////
 
-    const char *headers[] =
+    const char *condHeaders[] =
     {
         "#mu", "density",
         "sigma_xx", "sigma_xy",
@@ -73,8 +73,16 @@ int main(int argc, const char *argv[]) {
         "beta_xx", "beta_xy"
     };
 
+    const char *sWeightHeaders[] =
+    {
+        "#kx", "ky", "A(omega, E)"
+    };
+
     fileOut = fopen("./examples/conductivities.dat", "w");
-    writeHeader(fileOut, headers);
+    writeHeader(fileOut, condHeaders, 8);
+
+    surface = fopen("examples/spectralWeight.dat", "w");
+    writeHeader(surface, sWeightHeaders, 3);
 
     //////// precalculate omega vector Fermi Dirac derivative vector ////////
 
@@ -107,7 +115,6 @@ int main(int argc, const char *argv[]) {
     ////////////////// main loop over mu, kx and ky //////////////////
 
     LOG(dataHead, 2);
-    surface = fopen("examples/spectralWeight.dat", "w");
 
     for(int m = 0; m < nMu; m++)
     {
@@ -167,7 +174,7 @@ int main(int argc, const char *argv[]) {
                     beta_xy += omega2 * frequencyKernel_xy;
 
                     if (mu == MU && n == OMEGA)
-                        fprintf(surface, "%i %i %f\n", i, j, A1_k);
+                        fprintf(surface, "%i      %i     %4.8f\n", i, j, A1_k);
                 }
                 density += 1.0/(1.0 + exp(beta*E1_k));
           }

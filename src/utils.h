@@ -12,7 +12,7 @@
 // Files management
 void readDouble(FILE *file, char *name,  double *value);
 void readInt(FILE *file, char *name,  int *value);
-void writeHeader(FILE *fileOut, const char *header[]);
+void writeHeader(FILE *fileOut, const char *header[], int size);
 void LOG(const char *info, int isError);
 
 // Maths functions

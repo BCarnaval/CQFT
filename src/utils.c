@@ -59,11 +59,11 @@ void readInt(FILE *file, char *name,  int *value) {
     exit(1);
 }
 
-void writeHeader(FILE *fileOut, const char *header[]) {
+void writeHeader(FILE *fileOut, const char *header[], int size) {
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < size; i++)
     {
-        if (i == 7)
+        if (i == size - 1)
             fprintf(fileOut, "%s", header[i]);
 
         else
