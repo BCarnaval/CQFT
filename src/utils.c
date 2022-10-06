@@ -55,7 +55,7 @@ void readInt(FILE *file, char *name,  int *value) {
     exit(1);
 }
 
-void writeHeader(FILE *fileOut, char *header[]) {
+void writeHeader(FILE *fileOut, const char *header[]) {
 
     for (int i = 0; i < 8; i++) {
         if (i == 7) {
@@ -68,7 +68,7 @@ void writeHeader(FILE *fileOut, char *header[]) {
     return;
 }
 
-void LOG(char *info, int color) {
+void LOG(const char *info, int color) {
     if (color == 0) {
         printf(COLOR_RED   "\n%s\n" COLOR_RESET, info);
     } else if (color == 1) {

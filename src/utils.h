@@ -10,10 +10,10 @@
 #include <string.h>
 
 // Files management
-void readDouble(FILE * file, char * name,  double * value);
-void readInt(FILE * file, char * name,  int * value);
-void writeHeader(FILE * fileOut, char * header[]);
-void LOG(char * info, int isError);
+void readDouble(FILE *file, char *name,  double *value);
+void readInt(FILE *file, char *name,  int *value);
+void writeHeader(FILE *fileOut, const char *header[]);
+void LOG(const char *info, int isError);
 
 // Maths functions
 

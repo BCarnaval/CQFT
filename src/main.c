@@ -25,11 +25,11 @@ int main(int argc, const char *argv[]) {
     FILE *surface;
     FILE *fileOut;
 
-    char *startMsg = "afmCond starting.";
-    char *readMsg = "Reading parameters from model.dat";
-    char *fileNotFound = "File model.dat not found.";
-    char *dataHead = "      mu      density      sigma_xx      sigma_xy";
-    char *endMsg = "afmCond over!";
+    const char startMsg[] = "afmCond starting.";
+    const char readMsg[] = "Reading parameters from model.dat";
+    const char fileNotFound[] = "File model.dat not found.";
+    const char dataHead[] = "      mu      density      sigma_xx      sigma_xy";
+    const char endMsg[] = "afmCond over!";
 
     ////////////////// Read parameters from file //////////////////
 
@@ -64,7 +64,7 @@ int main(int argc, const char *argv[]) {
 
     ////////////////// Out data file initialization //////////////////
 
-    char *headers[] = {
+    const char *headers[] = {
         "#mu", "density",
         "sigma_xx", "sigma_xy",
         "alpha_xx", "alpha_xy",
