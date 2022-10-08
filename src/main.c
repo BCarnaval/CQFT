@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <stdio.h>
 
 
 int main(int argc, const char *argv[]) {
@@ -127,11 +128,15 @@ int main(int argc, const char *argv[]) {
 
         for(int i = 0; i < nK; i++)
         {
+            double kx = M_PI*(-1.0 + i*2.0/nK);
+
             if (mu == MU)
                 fprintf(surface, "\n");
 
             for(int j = 0; j < nK; j++)
             {
+                double ky = M_PI*(-1.0 + j*2.0/nK);
+
                 ////////// dispersion relation (and its derivatives) /////////
 
                 double epsilon_k           = -2.*t*(cosk[i] + cosk[j]) - 4.*tp*cosk[i]*cosk[j] - 2.*tpp*(cos2k[i] + cos2k[j]) - mu;
@@ -157,7 +162,7 @@ int main(int argc, const char *argv[]) {
                 {
                     double complex z = omega[n] + ETA * I;
 
-                    double A1_k = -(1./M_PI)*cimag(1.0/ (z-E1_k) );
+                    double A1_k = -(1./M_PI)*cimag(1.0/ (z-E1_k));
 
                     double frequencyKernel_xx = -dfermiDirac_dw[n]*kernel_xx*A1_k*A1_k;
                     double frequencyKernel_xy = -dfermiDirac_dw[n]*kernel_xy*A1_k*A1_k*A1_k;
@@ -172,8 +177,9 @@ int main(int argc, const char *argv[]) {
                     beta_xx += omega2 * frequencyKernel_xx;
                     beta_xy += omega2 * frequencyKernel_xy;
 
-                    if (mu == MU && n == OMEGA)
-                        fprintf(surface, "%i      %i     %4.8f\n", i, j, A1_k);
+                    if (mu == MU && omega[n] == OMEGA) {
+                        fprintf(surface, "%4.8f      %4.8f     %4.8f\n", kx, ky, A1_k);
+                    }
                 }
                 density += 1.0/(1.0 + exp(beta*E1_k));
           }
