@@ -14,9 +14,7 @@ plot: executable
 	@gnuplot -p $(EX_SRC)plot_density.gp
 
 executable: $(SOURCE)
-	@gcc $(OPTIONS) -o $(EXEC) $(SOURCE) -lm
-
-
+	clang $(OPTIONS) -o $(EXEC) $(SOURCE) -lm
 
 clean:
 	@$(RM) $(EX_SRC)*.$(GARBAGE)

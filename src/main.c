@@ -153,7 +153,6 @@ int main(int argc, const char *argv[]) {
                 double kernel_xx = dE1_k_dkx*dE1_k_dkx;
                 double kernel_xy = -(2./3.)*(dE1_k_dkx*(dE1_k_dkx*ddE1_k_dky_dky - dE1_k_dky*ddE1_k_dkx_dky));
 
-
                 for (int n = 0; n < nOmega; n++)
                 {
                     double complex z = omega[n] + ETA * I;
