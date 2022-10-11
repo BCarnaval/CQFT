@@ -29,7 +29,7 @@ int main(int argc, const char *argv[]) {
     const char startMsg[] = "afmCond starting.";
     const char readMsg[] = "Reading parameters from model.dat";
     const char fileNotFound[] = "File model.dat not found.";
-    const char dataHead[] = "      mu      density      sigma_xx      sigma_xy";
+    const char dataHead[] = "      mu      density";
     const char endMsg[] = "afmCond over!";
 
     ////////////////// Read parameters from file //////////////////
@@ -188,7 +188,7 @@ int main(int argc, const char *argv[]) {
         double f0 = 1.0/nK/nK;
         double f = (2.*energyCutoff) /(nOmega)*f0;
 
-        printf("\n% 4.8f % 4.8f % 4.8e % 4.8e", mu, f0*density,  f*sigma_xx, f*sigma_xy);
+        printf("\n% 4.8f % 4.8f", mu, f0*density);
 
         fprintf(fileOut, "% 4.8f % 4.8f  ", mu, f0*density);
         fprintf(fileOut, "% 4.8e % 4.8e  ", f*sigma_xx, f*sigma_xy);
