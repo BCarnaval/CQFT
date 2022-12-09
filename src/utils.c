@@ -59,6 +59,10 @@ void readInt(FILE *file, char *name,  int *value) {
     exit(1);
 }
 
+void readFile(FILE *fileIn, const int colmn) {
+
+}
+
 void writeHeader(FILE *fileOut, const char *header[], int size) {
 
     for (int i = 0; i < size; i++)

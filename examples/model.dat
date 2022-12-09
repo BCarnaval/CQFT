@@ -1,10 +1,10 @@
 #hamiltonian parameters:
-ETA   0.001
+ETA   0.05
 MU    0.0
 OMEGA 0.0
 t     1.0
-tp   0.0
-tpp   0.0
+tp   -0.3
+tpp   0.2
 muMin -4.0
 muMax 4.0
 
